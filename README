@@ -1,0 +1,15 @@
+query.countdown.js
+グリグリカウントダウン＆アップさせるjQueryプラグイン
+
+Note:jQuery(selector)の中身が数字ではない場合は無視。
+Use:カウンターが回ってる感を出したい時
+Required: jQuery
+Usage:
+
+// Count Up
+jQuery(selector).countUp(val,fps);
+
+// Count Down
+jQuery(selector).countDown(val.fps);
+
+※fpsは省略すると12
