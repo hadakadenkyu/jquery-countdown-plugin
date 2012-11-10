@@ -1,4 +1,4 @@
-query.countdown.js
+jquery.countdown.js
 グリグリカウントダウン＆アップさせるjQueryプラグイン
 
 Note:jQuery(selector)の中身が数字ではない場合は無視。
@@ -7,9 +7,9 @@ Required: jQuery
 Usage:
 
 // Count Up
-jQuery(selector).countUp(val,fps);
+jQuery(selector).countUp(val,duration,fps);
 
 // Count Down
-jQuery(selector).countDown(val.fps);
+jQuery(selector).countDown(val,duration,fps);
 
 ※fpsは省略すると12
