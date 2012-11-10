@@ -1,5 +1,5 @@
 /* ----------------------------------------
-jquery.countdown.js 1.0.0
+jquery.countdown.js 1.1.0
 グリグリカウントダウン＆アップさせるjQueryプラグイン
 
 Note:jQuery(selector)の中身が数字ではない場合は無視。
@@ -8,10 +8,10 @@ Required: jQuery
 Usage:
 
 // Count Up
-jQuery(selector).countUp(val,fps);
+jQuery(selector).countUp(val,duration,fps);
 
 // Count Down
-jQuery(selector).countDown(val.fps);
+jQuery(selector).countDown(val,duration,fps);
 
 ※fpsは省略すると12
 ---------------------------------------- */
@@ -22,11 +22,9 @@ jQuery.fn.extend({
 		fps = (typeof(fps)==='number')?~~(fps):12;
 		fps = (fps>1)?fps:1;
 		duration = (typeof(duration)==='number')?duration:1000;
-		var absVal = Math.abs(val);
 		var interval = 1000/fps;
-		var elem = $(this).get(0);
-		var n = elem.innerHTML;
-		n = Number(n);
+		var elem = $(this).eq(0).get(0);
+		var n = Number(elem.innerHTML);
 		var dfd = $.Deferred();
 		// 中身が数字じゃなかったら抜ける
 		if(n===NaN||val==0){
@@ -35,23 +33,21 @@ jQuery.fn.extend({
 			var timeOut;
 			var c = 0;
 			var cmax = Math.ceil(duration/interval);
+			var dif = ~~(val/cmax);
+			var absDif =Math.abs(dif);
 			var loop = function(){
-				c++;
-				if(c >= cmax){
-					clearTimeout(timeOut);
+				if(c++ >= cmax){
 					elem.innerHTML=n+val;
 					dfd.resolve();
 				} else {
-					var dif = ~~(val/cmax*c);
-					var intermediate = n+dif;
+					var res = String(n+=dif);
 					// 一度に10以上変わるとき、一桁目の数字はバラバラにしてしまう。
-					if(absVal/cmax>=10){
-						intermediate = String(intermediate);
-						var len = intermediate.length;
-						intermediate = intermediate.substr(0,len-1) + String(~~(Math.random()*9));
+					if(absDif>=10){
+						var len = res.length;
+						res = res.substr(0,len-1) + String(~~(Math.random()*9));
 					}
-					elem.innerHTML=intermediate;
-					timeOut = setTimeout(loop,interval);
+					elem.innerHTML=res;
+					setTimeout(loop,interval);
 				}
 			}
 			loop();
